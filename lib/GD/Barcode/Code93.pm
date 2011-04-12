@@ -9,7 +9,7 @@ use GD::Barcode;
 require Exporter;
 use vars qw($VERSION @ISA $error_string);
 @ISA = qw(GD::Barcode Exporter);
-$VERSION='1.3';
+$VERSION='1.3.1';
 
 my $code93bar = {
     0   =>'100010100',
@@ -145,11 +145,10 @@ sub init {
 sub barcode {
     my $self = shift;
 
-    my $sum_text = $self->calculateSums;
-    my $text     = sprintf('*%s*', $sum_text);
+    my @sum_text = ('*', $self->calculateSums, '*');
 
     my $return_string = '';
-    map { $return_string .= $code93bar->{$_} } split //, $text;
+    map { $return_string .= $code93bar->{$_} } @sum_text;
     return $return_string . "1";
 }
 
@@ -161,7 +160,7 @@ sub plot(@) {
   my %params = @_;
 
   ##  Normalize the hash keys:
-  %params = map { lc{$_} => $params{$_} } keys %params;
+  %params = map { lc($_) => $params{$_} } keys %params;
 
   my $text    = $self->{text};
 
@@ -302,6 +301,7 @@ Chris DiMartino chris DOT dimartino AT gmail DOT com
 
 The GD::Barcode::Code93 module is based on code provided by Kawai Takanori. Japan.
 The GD::Barcode::Code93 module was written by Chris DiMartino, 2004.
+Thanks to Lobanov Igor, Joel Richard, and Joshua Fortriede for their excellent Bug Reports and patches.
 All rights reserved.
 
 You may distribute under the terms of either the GNU General Public
