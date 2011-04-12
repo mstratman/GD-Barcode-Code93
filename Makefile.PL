@@ -7,6 +7,8 @@ WriteMakefile(
     , PREREQ_PM => {
           'GD::Barcode' => 0
         , 'GD'          => 0
+        , 'Test::More'  => 0
+        , 'Barcode::Code93' => 0
     }
     , VERSION_FROM => 'lib/GD/Barcode/Code93.pm'
 );
